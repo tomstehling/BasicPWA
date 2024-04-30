@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    Basic PWA
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        caches.open("cacheStorageTest").then(function (cache) {
+          cache.put(
+            "RequestURL",
+            new Response(
+              "<html><body>Dieser String ist im Cache gespeichert!</body></html>",
+              { headers: { "Content-Type": "text/html" } }
+            )
+          );
+        });
+      });
+
+      // log when page has completely loaded
+      window.onload = function () {
+        console.log("Seite hat vollständig geladen");
+      };
+    </script>
+  </body>
+</html>
